@@ -80,7 +80,7 @@ class HomeView extends GetView<MainController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                            "상담 예약",
+                            "간편 심리검사(가칭)",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -112,7 +112,7 @@ class HomeView extends GetView<MainController> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: (){
-                                print('click : $index');
+
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +138,7 @@ class HomeView extends GetView<MainController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                            "간편 심리검사(가칭)",
+                            "상담 예약",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -166,11 +166,11 @@ class HomeView extends GetView<MainController> {
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          itemCount: 10,
+                          itemCount: controller.reservationList.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: (){
-                                print('click : $index');
+                                Get.toNamed('/counselorDetailView', arguments: controller.reservationList[index]);
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +185,7 @@ class HomeView extends GetView<MainController> {
                                     ),
                                   ),
                                   SizedBox(height: 5,),
-                                  Text('ABC 테스트')
+                                  Text(controller.reservationList[index].name)
                                 ],
                               ),
                             );
@@ -204,7 +204,7 @@ class HomeView extends GetView<MainController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('(주)리허그)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: gray500),),
+                      Text('(주)리허그', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: gray500),),
                       SizedBox(height: 8,),
                       Text('대표 한재원 | 사업자 등록번호 619-86-02878', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: gray500),),
                       SizedBox(height: 8,),

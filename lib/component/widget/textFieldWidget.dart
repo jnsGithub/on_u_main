@@ -20,7 +20,7 @@ Widget TextFieldWidget(BuildContext context, String title, double size, Color bg
           decoration: InputDecoration(
               border: InputBorder.none,
               focusColor: mainColor,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(width:1.5,color: mainColor),
               )

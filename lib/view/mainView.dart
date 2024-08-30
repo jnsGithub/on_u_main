@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_u/view/program/programView.dart';
 import 'package:on_u/view/psychologicalTest/psychologicalTestView.dart';
-import 'package:on_u/view/reservation/reservationView.dart';
+import 'package:on_u/view/counselReservation/counselorListView.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 import '../component/color/color.dart';

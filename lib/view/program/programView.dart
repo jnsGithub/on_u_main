@@ -17,22 +17,27 @@ class ProgramView extends GetView<ProgramController> {
       child: ListView.builder(
         itemCount: controller.programList.length,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 28),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: size.width*0.9179,
-                    height: 203,
-                    decoration: BoxDecoration(
-                      color: bgColor,
-                      borderRadius: BorderRadius.circular(10),
+            return GestureDetector(
+              onTap: (){
+                Get.toNamed('/programDetailView', arguments: controller.programList[index]);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 28),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: size.width*0.9179,
+                      height: 203,
+                      decoration: BoxDecoration(
+                        color: controller.exColor[index],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 14,),
-                  Text(controller.programList[index].title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
-                ],
+                    SizedBox(height: 14,),
+                    Text(controller.programList[index].title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
+                  ],
+                ),
               ),
             );
           }),

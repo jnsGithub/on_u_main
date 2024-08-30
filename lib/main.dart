@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:on_u/view/counselReservation/reservationDetail/reservationDetailView.dart';
 import 'package:on_u/view/home/homeView.dart';
 import 'package:on_u/view/login/loginView.dart';
 import 'package:on_u/view/login/signUp/signUpCompanyView.dart';
 import 'package:on_u/view/login/signUp/signUpView.dart';
 import 'package:on_u/view/mainView.dart';
 import 'package:on_u/view/program/programController.dart';
+import 'package:on_u/view/program/programDetail/programDetailView.dart';
 import 'package:on_u/view/program/programView.dart';
 import 'package:on_u/view/psychologicalTest/psychologicalTestView.dart';
-import 'package:on_u/view/reservation/reservationController.dart';
-import 'package:on_u/view/reservation/reservationView.dart';
+import 'package:on_u/view/counselReservation/reservation/reservationCalendarView.dart';
+import 'package:on_u/view/counselReservation/counselorListController.dart';
+import 'package:on_u/view/counselReservation/counselorDetail/counselorDetailView.dart';
+import 'package:on_u/view/counselReservation/counselorListView.dart';
 
 
-void main() {
+void main() async {
+  await initializeDateFormatting();
   Get.put(ProgramController());
   Get.put(ReservationController());
 
@@ -51,8 +57,12 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/mainView', page: () => const MainView()),
         GetPage(name: '/homeView', page: () => HomeView()),
         GetPage(name: '/programView', page: () => const ProgramView()),
+        GetPage(name: '/programDetailView', page: () => const ProgramDetailView()),
         GetPage(name: '/psychologicalTestView', page: () => const PsychologicalTestView()),
-        GetPage(name: '/reservationView', page: () => const ReservationView()),
+        GetPage(name: '/counselorListView', page: () => const CounselorListView()),
+        GetPage(name: '/counselorDetailView', page: () => const CounselorDetailView()),
+        GetPage(name: '/reservaionCalendarView', page: () => const ReservationCalendarView()),
+        GetPage(name: '/reservationDetailView', page: () => ReservationDetailView())
       ],
     );
   }
