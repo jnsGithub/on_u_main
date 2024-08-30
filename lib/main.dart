@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:on_u/view/chat/chatListView.dart';
+import 'package:on_u/view/chat/chatRoom/chatRoomView.dart';
 import 'package:on_u/view/counselReservation/reservationDetail/reservationDetailView.dart';
 import 'package:on_u/view/home/homeView.dart';
 import 'package:on_u/view/login/loginView.dart';
@@ -62,7 +64,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/counselorListView', page: () => const CounselorListView()),
         GetPage(name: '/counselorDetailView', page: () => const CounselorDetailView()),
         GetPage(name: '/reservaionCalendarView', page: () => const ReservationCalendarView()),
-        GetPage(name: '/reservationDetailView', page: () => ReservationDetailView())
+        GetPage(name: '/reservationDetailView', page: () => ReservationDetailView()),
+        GetPage(name: '/chatListView', page: () => ChatListView()),
+        GetPage(name: '/chatRoomView', page: () => ChatRoomView()),
       ],
     );
   }

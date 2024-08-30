@@ -31,7 +31,7 @@ class MainView extends GetView<MainController> {
           IconButton(
             icon: ImageIcon(AssetImage('assets/images/sms.png'), color: subColor, size: 24),
             onPressed: () {
-              print('ㅎㅇ');
+              Get.toNamed('/chatListView', arguments: controller.counselorList);
             },
           ),
         ],

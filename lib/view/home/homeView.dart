@@ -166,11 +166,11 @@ class HomeView extends GetView<MainController> {
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          itemCount: controller.reservationList.length,
+                          itemCount: controller.counselorList.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: (){
-                                Get.toNamed('/counselorDetailView', arguments: controller.reservationList[index]);
+                                Get.toNamed('/counselorDetailView', arguments: controller.counselorList[index]);
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +185,7 @@ class HomeView extends GetView<MainController> {
                                     ),
                                   ),
                                   SizedBox(height: 5,),
-                                  Text(controller.reservationList[index].name)
+                                  Text(controller.counselorList[index].name)
                                 ],
                               ),
                             );

@@ -18,7 +18,7 @@ class MainController extends GetxController {
   RxInt pageIndex = 1.obs;
   String title = '';
   List<Program> programList = [];
-  List<Reservation> reservationList = [];
+  List<Reservation> counselorList = [];
 
   List<Color> exColor = [
     Colors.red,
@@ -68,7 +68,7 @@ class MainController extends GetxController {
       photoURL: ['https://picsum.photos/200/300'],
     ));
 
-    reservationList.add(Reservation(
+    counselorList.add(Reservation(
       title: '예약1',
       body: '예약1 내용',
       date: Timestamp.now(),
@@ -76,7 +76,7 @@ class MainController extends GetxController {
       name: '홍길동',
       photoURL: 'https://picsum.photos/200/300',
     ));
-    reservationList.add(Reservation(
+    counselorList.add(Reservation(
       title: '예약2',
       body: '예약2 내용',
       date: Timestamp.now(),
@@ -84,7 +84,7 @@ class MainController extends GetxController {
       name: '김철수',
       photoURL: 'https://picsum.photos/200/300',
     ));
-    reservationList.add(Reservation(
+    counselorList.add(Reservation(
       title: '예약3',
       body: '예약3 내용',
       date: Timestamp.now(),
@@ -92,7 +92,7 @@ class MainController extends GetxController {
       name: '이영희',
       photoURL: 'https://picsum.photos/200/300',
     ));
-    reservationList.add(Reservation(
+    counselorList.add(Reservation(
       title: '예약4',
       body: '예약4 내용',
       date: Timestamp.now(),
@@ -100,7 +100,7 @@ class MainController extends GetxController {
       name: '박철수',
       photoURL: 'https://picsum.photos/200/300',
     ));
-    reservationList.add(Reservation(
+    counselorList.add(Reservation(
       title: '예약5',
       body: '예약5 내용',
       date: Timestamp.now(),
@@ -121,7 +121,7 @@ class MainController extends GetxController {
         return ProgramView();
       case 2:
         var reservationController = Get.find<ReservationController>();
-        reservationController.reservationList = reservationList;
+        reservationController.reservationList = counselorList;
         return CounselorListView();
       case 3:
         return PsychologicalTestView();
