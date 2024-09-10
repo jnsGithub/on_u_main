@@ -5,9 +5,9 @@ class Program {
   final String body;
   final List<String> photoURL;
   final String title;
-  final Timestamp date;
+  final DateTime createDate;
 
-  Program({required this.documentId, required this.body, required this.photoURL,required this.title, required this.date});
+  Program({required this.documentId, required this.body, required this.photoURL,required this.title, required this.createDate});
 
 
   factory Program.fromJson(Map<String, dynamic> json) {
@@ -16,7 +16,7 @@ class Program {
       body:json['body'] ?? '',
       photoURL:json['photoURL'] ?? '',
       title:json['title'] ?? '',
-      date:json['date'],
+      createDate:json['createDate'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -25,7 +25,7 @@ class Program {
     data['body'] = this.body;
     data['photoURL'] = this.photoURL;
     data['title'] = this.title;
-    data['date'] = this.date;
+    data['createDate'] = this.createDate;
     return data;
   }
 }

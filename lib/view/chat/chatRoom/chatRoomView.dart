@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:on_u/component/color/color.dart';
 import 'package:on_u/view/chat/chatRoom/chatRoomController.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatRoomView extends GetView<ChatRoomController> {
   const ChatRoomView({super.key});
@@ -48,14 +50,15 @@ class ChatRoomView extends GetView<ChatRoomController> {
                         clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
                         alignment: Alignment.topLeft,
                         backGroundColor: bgColor,
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.7,
-                          ),
-                          child: Text(
-                            "안녕하세요 ㅋㅋ",
-                            style: TextStyle(color: Colors.black, fontSize: 16),
-                          ),
+                        child: Linkify(
+                          onOpen: (link) async {
+                            if (await canLaunch(link.url)) {
+                              await launch(link.url);
+                            } else {
+                              throw 'Could not launch $link';
+                            }
+                          },
+                          text: "안녕하세요 https://www.naver.com",
                         ),
                       ),
                       SizedBox(height: 8,),
@@ -73,7 +76,7 @@ class ChatRoomView extends GetView<ChatRoomController> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 ChatBubble(
-                  clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
+                  clipper: ChatBubbleClipper5(type: BubbleType.sendBubble),
                   alignment: Alignment.topRight,
                   backGroundColor: Color(0xffE8F9F4),
                   child: Container(
@@ -81,7 +84,7 @@ class ChatRoomView extends GetView<ChatRoomController> {
                       maxWidth: MediaQuery.of(context).size.width * 0.7,
                     ),
                     child: Text(
-                      "안녕하세요 ㅋㅋ",
+                      "감사합니다.",
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ),
@@ -95,44 +98,46 @@ class ChatRoomView extends GetView<ChatRoomController> {
         },
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         width: size.width,
         height: 108,
         color: bgColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.camera_alt, color: subColor)),
-            Container(
-              alignment: Alignment.topCenter,
-              width: size.width * 0.77,
-              height: 53,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 16),
-                        hintText: '메시지를 입력해주세요',
-                        border: InputBorder.none,
+        child: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(onPressed: (){}, icon: Icon(Icons.camera_alt, color: subColor)),
+              Container(
+                alignment: Alignment.topCenter,
+                width: size.width * 0.77,
+                height: 53,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 16),
+                          hintText: '메시지를 입력해주세요',
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 16,),
-                  IconButton(
-                    icon: Icon(Icons.send, color: subColor),
-                    onPressed: () {
-
-                    },
-                  )
-                ],
+                    SizedBox(width: 16,),
+                    IconButton(
+                      icon: Icon(Icons.send, color: subColor),
+                      onPressed: () {
+          
+                      },
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

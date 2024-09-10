@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:on_u/util/sign.dart';
 
 class SignUpCompanyController extends GetxController {
   RxBool isCompanyAuth = false.obs;
@@ -25,6 +26,10 @@ class SignUpCompanyController extends GetxController {
     companyNameController.dispose();
     nameController.dispose();
     super.onClose();
+  }
+
+  Future checkCompany() async{
+    isCompanyAuth.value = await Sign().checkCompany(companyNameController.text, ticketController.text);
   }
 
   void changeListner() {

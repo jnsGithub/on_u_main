@@ -60,7 +60,7 @@ class SignUpCompanyView extends GetView<SignUpCompanyController> {
                         ElevatedButton(
                           onPressed: () {
                             print('인증');
-                            controller.isCompanyAuth.value = !controller.isCompanyAuth.value;
+                            controller.checkCompany();
                           },
                           child: Text('인증', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
                           style: ElevatedButton.styleFrom(
@@ -73,7 +73,7 @@ class SignUpCompanyView extends GetView<SignUpCompanyController> {
                     )
                   ],
                 ),
-                Obx(() => !controller.isCompanyAuth.value ? Container(
+                Obx(() => controller.isCompanyAuth.value == false ? Container(
                   padding: EdgeInsets.only(top: 6),
                   height: 35,
                   child: Text('확인되지 않은 티켓 코드입니다.', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.red),),
@@ -85,8 +85,16 @@ class SignUpCompanyView extends GetView<SignUpCompanyController> {
             ),
             Obx(() => ElevatedButton(
                   onPressed: (){
-                    print('다음');
-                    Get.toNamed('/signUpView');
+                    if(controller.nameController.text == ''){
+                      if(!Get.isSnackbarOpen) Get.snackbar('알림', '이름을 입력해주세요.', backgroundColor: const Color(0xffff0000), colorText: Colors.white);
+                      return;
+                    }
+                    if(controller.isComplete.value){
+                      print('다음');
+                      Get.toNamed('/signUpView', arguments: {controller.ticketController.text, controller.companyNameController.text, controller.nameController.text});
+                    }else{
+                      if(!Get.isSnackbarOpen) Get.snackbar('알림', '회사명과 티켓코드를 확인해주세요.', backgroundColor: const Color(0xffff0000), colorText: Colors.white);
+                    }
                   },
                   child: Text('다음', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: controller.isComplete.value ? Colors.white : Colors.black),),
                 style: ElevatedButton.styleFrom(

@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:on_u/util/sign.dart';
 
-class LoginController extends GetxController {
-  Sign sign = Sign();
-  bool isSignIn = false;
-
+class FindPasswordController extends GetxController {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+
+  Sign sign = Sign();
+  bool isSendMail = false;
 
   @override
   void onInit() {
@@ -19,7 +18,7 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
-  Future login() async {
-    isSignIn = await sign.signIn(emailController.text, passwordController.text);
+  Future findPassword(String email) async {
+    isSendMail = await sign.findPassword(email);
   }
 }

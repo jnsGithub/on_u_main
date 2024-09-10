@@ -39,6 +39,10 @@ class ChatListView extends GetView<ChatListController> {
                   onTap: (){
                     Get.toNamed('/chatRoomView', arguments: controller.counselorList[index]);
                   },
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(controller.counselorList[index].profileURL),
+                  ),
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -52,13 +56,6 @@ class ChatListView extends GetView<ChatListController> {
                         ],
                       ),
                     ],
-                  ),
-                  leading: Container(
-                    decoration: BoxDecoration(
-                      color: bgColor,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                      child: Icon(Icons.person, color: mainColor, size: 50,)
                   ),
                 ),
               ],

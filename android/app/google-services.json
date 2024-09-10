@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "70825470231",
+    "project_id": "on-u-caec7",
+    "storage_bucket": "on-u-caec7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70825470231:android:45aa0fe751d8b111afef52",
+        "android_client_info": {
+          "package_name": "com.onu.main.on_u"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI95V4B39LGn0xSJ8qR1vwLvGPyknto9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

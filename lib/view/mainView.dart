@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_u/view/program/programView.dart';
 import 'package:on_u/view/psychologicalTest/psychologicalTestView.dart';
@@ -18,72 +19,99 @@ class MainView extends GetView<MainController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => MainController());
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: false,
-        title: Obx(() => controller.selectedIndex == 0 ?
-        Image.asset('assets/images/logo.png', width: size.width*0.2051,fit: BoxFit.fitWidth,)
-            : Text(controller.title, style: TextStyle(color: mainColor, fontSize: 22, fontWeight: FontWeight.w600)
-        ),
-        ),
-        actions: [
-          IconButton(
-            icon: ImageIcon(AssetImage('assets/images/sms.png'), color: subColor, size: 24),
-            onPressed: () {
-              Get.toNamed('/chatListView', arguments: controller.counselorList);
-            },
+    DateTime? _lastPressedAt;
+    return PopScope(
+
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
+        // if(didPop){
+        //   print(didPop);
+        //   return;
+        // }
+        print(didPop);
+        if (_lastPressedAt == null ||
+            DateTime.now().difference(_lastPressedAt!) > const Duration(seconds: 1)) {
+          // 뒤로가기 버튼이 처음 눌렸거나, 마지막 클릭 이후 2초가 지나면 시간을 갱신
+          _lastPressedAt = DateTime.now();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('뒤로 버튼을 한 번 더 누르면 종료됩니다.'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }
+        else{
+          SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: false,
+          title: Obx(() => controller.selectedIndex == 0 ?
+          Image.asset('assets/images/logo.png', width: size.width*0.2051,fit: BoxFit.fitWidth,)
+              : Text(controller.title, style: TextStyle(color: controller.selectedIndex.value != 4 ? mainColor : Colors.black, fontSize: 22, fontWeight: FontWeight.w600)
           ),
-        ],
-      ),
-      body: Obx(() => controller.currentScreen), // 현재 화면을 그리도록 설정
-      // body: Obx(() => IndexedStack(
-      //   index: controller.selectedIndex.value,
-      //   children: [
-      //     HomeView(),
-      //     ProgramView(),
-      //     ReservationView(),
-      //     PsychologicalTestView(),
-      //     MyPageView(),
-      //   ],
-      // )),
-      // bottomNavigationBar: Obx(() => a('title', 'iconPath', 0)),
-      bottomNavigationBar: Container(
-        height: 86,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: Offset(0, 3),
+          actions: [
+            Obx(() => controller.selectedIndex.value != 4 ? IconButton(
+                icon: ImageIcon(AssetImage('assets/images/sms.png'), color: subColor, size: 24),
+                onPressed: () {
+                  Get.toNamed('/chatListView', arguments: controller.counselorList);
+                },
+              ) : Container(),
             ),
           ],
         ),
-        child: Obx(() => Row(
-          children: [
-            Expanded(
-              child: bottomNaviItem('홈', 'assets/images/home.png', 0),
+        body: Obx(() => controller.currentScreen), // 현재 화면을 그리도록 설정
+        // body: Obx(() => IndexedStack(
+        //   index: controller.selectedIndex.value,
+        //   children: [
+        //     HomeView(),
+        //     ProgramView(),
+        //     ReservationView(),
+        //     PsychologicalTestView(),
+        //     MyPageView(),
+        //   ],
+        // )),
+        // bottomNavigationBar: Obx(() => a('title', 'iconPath', 0)),
+        bottomNavigationBar: Container(
+          height: 86,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
             ),
-            Expanded(
-              child: bottomNaviItem('프로그램', 'assets/images/bubble_chart.png', 1),
-            ),
-            Expanded(
-              child: bottomNaviItem('상담예약', 'assets/images/priority.png', 2),
-            ),
-            Expanded(
-              child: bottomNaviItem('심리검사', 'assets/images/history_edu.png', 3),
-            ),
-            Expanded(
-              child: bottomNaviItem('마이페이지', 'assets/images/person.png', 4),
-            ),
-          ],
-        )),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Obx(() => Row(
+            children: [
+              Expanded(
+                child: bottomNaviItem('홈', 'assets/images/home.png', 0),
+              ),
+              Expanded(
+                child: bottomNaviItem('프로그램', 'assets/images/bubble_chart.png', 1),
+              ),
+              Expanded(
+                child: bottomNaviItem('상담예약', 'assets/images/priority.png', 2),
+              ),
+              Expanded(
+                child: bottomNaviItem('심리검사', 'assets/images/history_edu.png', 3),
+              ),
+              Expanded(
+                child: bottomNaviItem('마이페이지', 'assets/images/person.png', 4),
+              ),
+            ],
+          )),
+        ),
       ),
     );
   }

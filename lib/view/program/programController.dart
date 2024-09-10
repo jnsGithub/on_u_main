@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../model/program.dart';
 
 class ProgramController extends GetxController {
-  List<Program> programList = [];
+  RxList<Program> programList = <Program>[].obs;
 
   List<Color> exColor = [
     Colors.red,

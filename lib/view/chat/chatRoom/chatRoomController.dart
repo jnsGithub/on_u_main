@@ -3,7 +3,7 @@ import 'package:on_u/model/reservation.dart';
 
 class ChatRoomController extends GetxController{
   late Reservation counselor;
-  List<bool> a = [true, false, true, false, true, false, true, false, true, false];
+  List<bool> a = [true, false];
 
   @override
   void onInit() {

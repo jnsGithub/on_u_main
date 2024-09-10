@@ -31,7 +31,7 @@ class ProgramDetailView extends GetView<ProgramDetailController> {
               child: Stack(
                 children: [
                   PageView.builder(
-                      itemCount: 10,
+                      itemCount: controller.program.photoURL.length,
                       controller: controller.pageController,
                       onPageChanged: (i){
                         controller.changeIndex(i+1);
@@ -43,10 +43,10 @@ class ProgramDetailView extends GetView<ProgramDetailController> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: controller.exColor[index],
-                            // image: DecorationImage(
-                            //     image: NetworkImage(controller.banner[index]),
-                            //     fit: BoxFit.cover
-                            // )
+                            image: DecorationImage(
+                                image: NetworkImage(controller.program.photoURL[index]),
+                                fit: BoxFit.cover
+                            )
                           ),
                         );
                       }),
@@ -60,10 +60,10 @@ class ProgramDetailView extends GetView<ProgramDetailController> {
                             borderRadius: BorderRadius.all(Radius.circular(6)),
                             color: Colors.black54
                         ),
-                        child: Text('${controller.pageIndex.value} / 10',style: TextStyle(color: Colors.white,fontSize: 13),
+                        child: Text('${controller.pageIndex.value} / ${controller.program.photoURL.length}',style: TextStyle(color: Colors.white,fontSize: 13),
                         ),
                       )
-                  ),
+                    ),
                   ),
                 ],
               ),
@@ -72,7 +72,7 @@ class ProgramDetailView extends GetView<ProgramDetailController> {
             Center(
               child: SmoothPageIndicator(
                   controller: controller.pageController,  // PageController
-                  count:  10,
+                  count:  controller.program.photoURL.length,
                   effect: SwapEffect(
                     activeDotColor: mainColor,
                     dotColor: gray100,

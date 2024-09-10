@@ -31,12 +31,15 @@ class CounselorListView extends GetView<ReservationController> {
                   width: size.width*0.4385,
                   height: size.width*0.4385,
                   decoration: BoxDecoration(
-                    color: controller.exColor[index],
+                    image: DecorationImage(
+                      image: NetworkImage(controller.reservationList[index].photoURL),
+                      fit: BoxFit.fitWidth,
+                    ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 SizedBox(height: 14,),
-                Text(controller.reservationList[index].name, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
+                Text(controller.reservationList[index].name + ' 상담사', style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
               ],
             ),
           );

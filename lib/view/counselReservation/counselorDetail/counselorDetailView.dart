@@ -27,6 +27,10 @@ class CounselorDetailView extends GetView<CounselorDetailController> {
                 width: size.width,
                 height: size.width,
                 decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(controller.reservation.photoURL),
+                    fit: BoxFit.fitWidth,
+                  ),
                   color: bgColor,
                 ),
               ),

@@ -30,8 +30,11 @@ class ProgramView extends GetView<ProgramController> {
                       width: size.width*0.9179,
                       height: 203,
                       decoration: BoxDecoration(
-                        color: controller.exColor[index],
                         borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(controller.programList[index].photoURL[0]),
+                          fit: BoxFit.fitWidth,
+                        ),
                       ),
                     ),
                     SizedBox(height: 14,),

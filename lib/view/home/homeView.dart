@@ -24,6 +24,7 @@ class HomeView extends GetView<MainController> {
                     GestureDetector(
                       onTap: (){
                         controller.selectedIndex.value = 1;
+                        controller.title = 'ON:U 프로그램';
                       },
                       child: Text("더보기 >", style: TextStyle(fontSize: 13, color: gray500, fontWeight: FontWeight.w500,),),
                     ),
@@ -35,25 +36,26 @@ class HomeView extends GetView<MainController> {
                 width: size.width,
                 child: Stack(
                   children: [
-                    PageView.builder(
-                        itemCount: 10,
-                        onPageChanged: (i){
-                          controller.changeIndex(i+1);
-                        },
-                        itemBuilder: (context, index) {
-                          return Container(
-                            width: size.width,
-                            height: 214,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: controller.exColor[index],
-                              // image: DecorationImage(
-                              //     image: NetworkImage(controller.banner[index]),
-                              //     fit: BoxFit.cover
-                              // )
-                            ),
-                          );
-                        }),
+                    Obx(() => PageView.builder(
+                          itemCount: controller.programList.length > 10 ? 10 : controller.programList.length,
+                          onPageChanged: (i){
+                            controller.changeIndex(i+1);
+                          },
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: size.width,
+                              height: 214,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                // color: controller.exColor[index],
+                                image: DecorationImage(
+                                    image: NetworkImage(controller.programList[index].photoURL[0]),
+                                    fit: BoxFit.cover
+                                )
+                              ),
+                            );
+                          }),
+                    ),
                     Obx(() => Positioned(
                         right: 16,
                         bottom: 16,
@@ -64,7 +66,7 @@ class HomeView extends GetView<MainController> {
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                               color: Colors.black54
                           ),
-                          child: Text('${controller.pageIndex.value} / 10',style: TextStyle(color: Colors.white,fontSize: 13),
+                          child: Text('${controller.pageIndex.value} / ${controller.programList.length > 10 ? 10 : controller.programList.length}',style: TextStyle(color: Colors.white,fontSize: 13),
                           ),
                         )
                     ),
@@ -127,7 +129,10 @@ class HomeView extends GetView<MainController> {
                                     ),
                                   ),
                                   SizedBox(height: 5,),
-                                  Text('ABC 테스트')
+                                  Text('ABC 테스트',style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ))
                                 ],
                               ),
                             );
@@ -146,7 +151,8 @@ class HomeView extends GetView<MainController> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            controller.selectedIndex.value = 3;
+                            controller.selectedIndex.value = 2;
+                            controller.title = '상담 예약';
                           },
                           child: Text(
                             "더보기 >",
@@ -163,7 +169,7 @@ class HomeView extends GetView<MainController> {
                     Container(
                       height: size.width*0.45,
                       width: size.width,
-                      child: ListView.builder(
+                      child: Obx(() => ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           itemCount: controller.counselorList.length,
@@ -181,15 +187,24 @@ class HomeView extends GetView<MainController> {
                                     margin: EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      color: controller.exColor[index],
+                                      image: DecorationImage(
+                                        image: NetworkImage(controller.counselorList[index].photoURL),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(height: 5,),
-                                  Text(controller.counselorList[index].name)
+                                  Text(
+                                      controller.counselorList[index].name + ' 상담사',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ))
                                 ],
                               ),
                             );
                           }
+                      ),
                       ),
                     )
                   ],
@@ -200,19 +215,19 @@ class HomeView extends GetView<MainController> {
                 width: size.width,
                 color: bgColor,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16, top: 16, bottom: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('(주)리허그', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: gray500),),
-                      SizedBox(height: 8,),
-                      Text('대표 한재원 | 사업자 등록번호 619-86-02878', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: gray500),),
-                      SizedBox(height: 8,),
-                      Text('서울 서초구 청계산로 203, 507호', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: gray500, ),),
-                      SizedBox(height: 8,),
-                      Text('고객센터 000-0000', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: gray500),),
-                    ],
-                  )
+                    padding: EdgeInsets.only(left: 16, top: 16, bottom: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('(주)리허그', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: gray500),),
+                        SizedBox(height: 8,),
+                        Text('대표 한재원 | 사업자 등록번호 619-86-02878', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: gray500),),
+                        SizedBox(height: 8,),
+                        Text('서울 서초구 청계산로 203, 507호', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: gray500, ),),
+                        SizedBox(height: 8,),
+                        Text('고객센터 000-0000', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: gray500),),
+                      ],
+                    )
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:on_u/view/counselReservation/reservationDetail/reservationDetailController.dart';
 
 import '../../../component/color/color.dart';
@@ -31,7 +32,7 @@ class ReservationDetailView extends GetView<ReservationDetailController> {
                 children: [
                   Text('상담 예약일', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w600)),
                   SizedBox(height: 12),
-                  Text('2024년 10월 14일', style: TextStyle(color: gray600, fontSize: 18, fontWeight: FontWeight.w400)),
+                  Text(controller.reservationDateStr, style: TextStyle(color: gray600, fontSize: 18, fontWeight: FontWeight.w400)),
                 ],
               ),
               SizedBox(height: 40),
@@ -40,7 +41,7 @@ class ReservationDetailView extends GetView<ReservationDetailController> {
                 children: [
                   Text('상담 시간', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w600)),
                   SizedBox(height: 12),
-                  Text('오후 01:00', style: TextStyle(color: gray600, fontSize: 18, fontWeight: FontWeight.w400)),
+                  Text(controller.reservationTime, style: TextStyle(color: gray600, fontSize: 18, fontWeight: FontWeight.w400)),
                 ],
               ),
               SizedBox(height: 35),
@@ -58,7 +59,9 @@ class ReservationDetailView extends GetView<ReservationDetailController> {
                     borderRadius: BorderRadius.circular(6),
                   ),
                 ),
-                  onPressed: (){},
+                  onPressed: (){
+                    controller.reservation();
+                  },
                   child: Text('예약하기', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
               )
             ],

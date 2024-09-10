@@ -5,10 +5,13 @@ import 'package:on_u/view/chat/chatListView.dart';
 import 'package:on_u/view/chat/chatRoom/chatRoomView.dart';
 import 'package:on_u/view/counselReservation/reservationDetail/reservationDetailView.dart';
 import 'package:on_u/view/home/homeView.dart';
+import 'package:on_u/view/login/findPassword/findPasswordView.dart';
 import 'package:on_u/view/login/loginView.dart';
 import 'package:on_u/view/login/signUp/signUpCompanyView.dart';
 import 'package:on_u/view/login/signUp/signUpView.dart';
 import 'package:on_u/view/mainView.dart';
+import 'package:on_u/view/myPage/contactUs/contactUs.dart';
+import 'package:on_u/view/myPage/resrvationList/reservationListView.dart';
 import 'package:on_u/view/program/programController.dart';
 import 'package:on_u/view/program/programDetail/programDetailView.dart';
 import 'package:on_u/view/program/programView.dart';
@@ -17,9 +20,15 @@ import 'package:on_u/view/counselReservation/reservation/reservationCalendarView
 import 'package:on_u/view/counselReservation/counselorListController.dart';
 import 'package:on_u/view/counselReservation/counselorDetail/counselorDetailView.dart';
 import 'package:on_u/view/counselReservation/counselorListView.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await initializeDateFormatting();
   Get.put(ProgramController());
   Get.put(ReservationController());
@@ -57,6 +66,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/signUpCompanyView', page: () => const SignUpCompanyView()),
         GetPage(name: '/signUpView', page: () => const SignUpView()),
         GetPage(name: '/mainView', page: () => const MainView()),
+        GetPage(name: '/findPasswordView', page: () => const FindPasswordView()),
         GetPage(name: '/homeView', page: () => HomeView()),
         GetPage(name: '/programView', page: () => const ProgramView()),
         GetPage(name: '/programDetailView', page: () => const ProgramDetailView()),
@@ -67,6 +77,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/reservationDetailView', page: () => ReservationDetailView()),
         GetPage(name: '/chatListView', page: () => ChatListView()),
         GetPage(name: '/chatRoomView', page: () => ChatRoomView()),
+        GetPage(name: '/reservationListView', page: () => const ReservationListView()),
+        GetPage(name: '/contactUsView', page: () => const ContactUs()),
       ],
     );
   }
