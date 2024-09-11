@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:on_u/global.dart';
-import 'package:on_u/model/reservaionList.dart';
+import 'package:on_u/model/reservationList.dart';
 import 'package:on_u/util/reservationInfo.dart';
 import 'package:on_u/view/counselReservation/counselorDetail/counselorDetailController.dart';
 

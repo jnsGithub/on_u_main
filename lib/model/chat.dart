@@ -2,31 +2,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chat {
   final String documentId;
-  final Map<String, dynamic> chatList;
-  final String counselor;
-  String sender;
-  bool isRead = false;
-  final DateTime date;
+  final String chatRoomId;
+  final DateTime createDate;
+  final String senderId;
+  final String chat;
 
-  Chat({required this.documentId, required this.chatList, required this.counselor, required this.sender, required this.date});
+  Chat({
+    required this.documentId,
+    required this.chatRoomId,
+    required this.createDate,
+    required this.senderId,
+    required this.chat,
+  });
 
 
   factory Chat.fromJson(Map<String, dynamic> json) {
     return Chat(
       documentId:json['documentId'] ?? '',
-      chatList:json['chatList'] ?? '',
-      counselor:json['counselor'] ?? '',
-      sender:json['sender'] ?? '',
-      date:json['date'],
+      chatRoomId:json['chatRoomId'] ?? '',
+      createDate:json['createDate'].toDate(),
+      senderId:json['senderId'] ?? '',
+      chat:json['chat'] ?? '',
     );
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['documentId'] = this.documentId;
-    data['chatList'] = this.chatList;
-    data['counselor'] = this.counselor;
-    data['sender'] = this.sender;
-    data['date'] = this.date;
+    data['chatRoomId'] = this.chatRoomId;
+    data['createDate'] = this.createDate;
+    data['senderId'] = this.senderId;
+    data['chat'] = this.chat;
     return data;
   }
 }

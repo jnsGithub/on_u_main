@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:on_u/component/color/color.dart';
-import 'package:on_u/model/reservaionList.dart';
+import 'package:on_u/model/reservationList.dart';
 import 'package:on_u/model/reservation.dart';
 import 'package:on_u/util/reservationInfo.dart';
 import 'package:on_u/view/mainController.dart';
@@ -73,6 +73,19 @@ class ReservationCalendarController extends GetxController {
 
   SelectDayRevervationPossibleTime(DateTime selectedDay){
     this.selectedDay.value = selectedDay;
+    for(int i = 0; i < reservation.holyDate.length; i++){
+      if(this.selectedDay.value.year == reservation.holyDate[i].year &&
+          this.selectedDay.value.month == reservation.holyDate[i].month &&
+          this.selectedDay.value.day == reservation.holyDate[i].day){
+        for(int j = 0; j < totalReservationTimeCheck.length; j++){
+          totalReservationTimeCheck[j] = false;
+        }
+        update();
+        return;
+      }
+    }
+    print(reservation.holyDate[1]);
+    print('통과함');
     reservationMorinigTimeCheck = RxList<bool>([true, true, true, true, true, true, true, true]);
     reservationAfternoonTimeCheck = RxList<bool>([true ,true, true, true, true, true, true, true, true, true, true, true, true, true, true]);
     defaultImpossibleTime();
@@ -95,7 +108,6 @@ class ReservationCalendarController extends GetxController {
           }
         }
       }
-
     }
     totalReservationTimeCheck.value = [...reservationMorinigTimeCheck, ...reservationAfternoonTimeCheck];
     update();
@@ -108,7 +120,7 @@ class ReservationCalendarController extends GetxController {
     setHolyDate();
     defaultImpossibleTime();
     SelectDayRevervationPossibleTime(selectedDay.value);
-    totalReservationTimeCheck = RxList<bool>([...reservationMorinigTimeCheck, ...reservationAfternoonTimeCheck]);
+    // totalReservationTimeCheck = RxList<bool>([...reservationMorinigTimeCheck, ...reservationAfternoonTimeCheck]);
     // print(DateFormat.Hm('ko_KR').format(DateTime.now()));
     selectedTime.listen((_) => changeListner());
   }
@@ -118,6 +130,7 @@ class ReservationCalendarController extends GetxController {
     super.onClose();
   }
 
+  // TODO: 새로고침
   void refreshReservation() async{
     print(reservation.documentId);
     reservation = await reservationInfo.getCounselor(reservation.documentId);
@@ -142,7 +155,6 @@ class ReservationCalendarController extends GetxController {
       selectReservation = date;
     }
   }
-
 
   void previousMonth() {
     int month = focusedDay.value.month - 1;

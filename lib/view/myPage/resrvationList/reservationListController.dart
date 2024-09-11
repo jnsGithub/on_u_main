@@ -1,16 +1,23 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:on_u/model/myReservaion.dart';
+import 'package:on_u/model/reservationList.dart';
 import 'package:on_u/model/reservation.dart';
+import 'package:on_u/util/reservationInfo.dart';
 
 class ReservationListController extends GetxController {
   late List<Reservation> counselorList;
-  List<MyReservation> myReservationList = [];
+  RxList<MyReservation> myReservationList = <MyReservation>[].obs;
+  List<ReservationList> reservationList = [];
+
+  ReservationInfo reservationInfo = ReservationInfo();
 
   @override
   void onInit() async{
     super.onInit();
-    counselorList = Get.arguments;
     await init();
+    counselorList = Get.arguments;
+
   }
 
   @override
@@ -18,10 +25,42 @@ class ReservationListController extends GetxController {
     super.onClose();
   }
   init() async{
-    myReservationList.add(MyReservation(documentId: 'gdg', counselor: '홍길동', counselorInfo: '상담 요청 전화번호 010-1234-5678', date: DateTime.now(), myName: '김철수', hp: '010-1234-5678', request: '상담 요청 내용'));
-    myReservationList.add(MyReservation(documentId: 'gdg', counselor: '김철수', counselorInfo: '상담 요청 전화번호 010-1234-5678', date: DateTime.now(), myName: '김철수', hp: '010-1234-5678', request: '상담 요청 내용'));
-    myReservationList.add(MyReservation(documentId: 'gdg', counselor: '이영희', counselorInfo: '상담 요청 전화번호 010-1234-5678', date: DateTime.now(), myName: '김철수', hp: '010-1234-5678', request: '상담 요청 내용'));
-    myReservationList.add(MyReservation(documentId: 'gdg', counselor: '김철수', counselorInfo: '상담 요청 전화번호 010-1234-5678', date: DateTime.now(), myName: '김철수', hp: '010-1234-5678', request: '상담 요청 내용'));
-    myReservationList.add(MyReservation(documentId: 'gdg', counselor: '김영희', counselorInfo: '상담 요청 전화번호 010-1234-5678', date: DateTime.now(), myName: '김철수', hp: '010-1234-5678', request: '상담 요청 내용'));
+    myReservationList.value = await reservationInfo.getMyReservationList();
+    print(myReservationList.length);
+  }
+
+  String dateToString(DateTime date){
+    String month = '';
+    String day = '';
+    String week = DateFormat.E('ko_KR').format(date);
+    String afternoon = '';
+    String hour = '';
+    String min = '';
+    if(date.month < 10) {
+      month = '0${date.month}';
+    }
+    if(date.day < 10) {
+      day = '0${date.day}';
+    } else {
+      day = '${date.day}';
+    }
+    if(date.hour > 12) {
+      afternoon = '오후';
+    } else {
+      afternoon = '오전';
+    }
+    if(date.hour > 12) {
+      hour = '${date.hour - 12}';
+    } else {
+      hour = '${date.hour}';
+    }
+    if(date.minute < 10) {
+      min = '0${date.minute}';
+    } else {
+      min = '${date.minute}';
+    }
+
+
+    return '${month}.${day}(${week}) · ${afternoon} ${hour}시${min}분';
   }
 }

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:on_u/model/reservaionList.dart';
+import 'package:on_u/global.dart';
+import 'package:on_u/model/myReservaion.dart';
+import 'package:on_u/model/reservationList.dart';
 import 'package:on_u/model/reservation.dart';
 
 class ReservationInfo{
@@ -55,10 +57,37 @@ class ReservationInfo{
     }
   }
 
+  Future<List<MyReservation>> getMyReservationList() async {
+    List<MyReservation> MyReservationList = [];
+    try {
+      QuerySnapshot snapshot = await db.collection('reservation').where('userId', isEqualTo: uid).orderBy('createDate', descending: true).get();
+      for (QueryDocumentSnapshot document in snapshot.docs) {
+        Map<String, dynamic> myReservationData = {};
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        QuerySnapshot snapshot2 = await db.collection('counselor').where('documentId', isEqualTo: data['counselorId']).get();
+        myReservationData['counselor'] = snapshot2.docs[0]['name'];
+        print(snapshot2.docs[0]['name']);
+        myReservationData['counselorInfo'] = snapshot2.docs[0]['info'];
+        print(snapshot2.docs[0]['info']);
+        myReservationData['counselorPhotoUrl'] = snapshot2.docs[0]['photoURL'];
+        print(snapshot2.docs[0]['photoURL']);
+        myReservationData['date'] = data['createDate'];
+        print(data['createDate']);
+        MyReservationList.add(MyReservation.fromJson(myReservationData));
+      }
+      return MyReservationList;
+    } catch (e) {
+      print('예약내역 가져올때 걸림');
+      print(e);
+      return [];
+    }
+  }
+
+  // 안쓰는중
   Future<List<ReservationList>> getReservationList(String counseloId) async {
     List<ReservationList> reservationList = [];
     try {
-      QuerySnapshot snapshot = await db.collection('reservaion').where('conselorId', isEqualTo: counseloId).get();
+      QuerySnapshot snapshot = await db.collection('reservation').where('conselorId', isEqualTo: counseloId).get();
       for (QueryDocumentSnapshot document in snapshot.docs) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
         data['documentId'] = document.id;
@@ -105,7 +134,7 @@ class ReservationInfo{
         await db.collection('counselor').doc(documentId).update({
           'reservationList': FieldValue.arrayUnion([reservationList.toJson()])
         });
-        await db.collection('reservaion').add(data);
+        await db.collection('reservation').add(data);
       }
     } catch (e) {
       print('예약 추가할때 걸림');

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:on_u/model/reservaionList.dart';
+import 'package:on_u/model/reservationList.dart';
 
 class Reservation {
   final String documentId;
