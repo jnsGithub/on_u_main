@@ -81,13 +81,42 @@ class ChatListView extends GetView<ChatListController> {
                               title: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(snapshot2.data![0] + ' 상담사', style: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w500),),
+                                  Text(snapshot2.data![0] + ' 상담사',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
                                   SizedBox(height: 5,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(snapshot.data!.docs[index].data()['lastChat'], style: TextStyle(color: gray700, fontSize: 14, fontWeight: FontWeight.w400),),
-                                      Text(hours > 24 ? '${(hours/24).toInt()}일 전' : hours > 0 && hours < 24 ? '${hours}시간 전' : minutes > 0 ? '${minutes}분 전' : '${seconds}초 전', style: TextStyle(color: gray400, fontSize: 14, fontWeight: FontWeight.w400))
+                                      Text(snapshot.data!.docs[index].data()['lastChat'].isEmpty
+                                          ? '없음'
+                                          : snapshot.data!.docs[index].data()['lastChat'].length > 10
+                                          ? snapshot.data!.docs[index].data()['lastChat'].substring(0,10) + '...'
+                                          : snapshot.data!.docs[index].data()['lastChat'],
+                                        style: TextStyle(
+                                            color: gray700,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            overflow: TextOverflow.fade
+                                        ),
+                                      ),
+                                      Text(hours > 24
+                                          ? '${(hours/24).toInt()}일 전'
+                                          : hours > 0 && hours < 24
+                                          ? '${hours}시간 전'
+                                          : minutes > 0
+                                          ? '${minutes}분 전'
+                                          : '${seconds}초 전',
+                                          style: TextStyle(
+                                              color: gray400,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400
+                                          )
+                                      )
                                     ],
                                   ),
                                 ],

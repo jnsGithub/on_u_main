@@ -21,6 +21,7 @@ import 'package:on_u/view/counselReservation/counselorListController.dart';
 import 'package:on_u/view/counselReservation/counselorDetail/counselorDetailView.dart';
 import 'package:on_u/view/counselReservation/counselorListView.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'firebase_options.dart';
 
 
@@ -32,6 +33,12 @@ void main() async {
   await initializeDateFormatting();
   Get.put(ProgramController());
   Get.put(ReservationController());
+  if(await Permission.photos.isGranted) {
+    print('권한이 허용되어 있습니다.');
+  } else {
+    Permission.photos.request();
+    print('권한이 허용되어 있지 않습니다.');
+  }
 
   runApp(const MyApp());
 }

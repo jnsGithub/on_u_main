@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:on_u/model/chat.dart';
 import 'package:on_u/model/chatRoom.dart';
 
 class Chating{
   FirebaseFirestore db = FirebaseFirestore.instance;
+  FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<List<ChatRoom>> getChatList(String userId) async {
     try {

@@ -29,6 +29,17 @@ class Sign{
     }
   }
 
+  Future initChatRoom(String uid) async {
+    try {
+      await db.collection('chatRoom').doc(uid).set({
+        'uid': uid,
+        'lastChatDate': Timestamp.now(),
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<bool> signIn(String email, String password) async {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
