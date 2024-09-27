@@ -9,19 +9,24 @@ class Sign{
   FirebaseFirestore db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<bool> signUp(String email, String password, String companyCode, String companyName, String name) async {
+  Future<bool> signUp(String email, String password, String passwordCheck, String companyCode, String companyName, String name) async {
     try {
+      if(password != passwordCheck) {
+        return false;
+      }
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      uid = userCredential.user!.uid;
 
-      await db.collection('users').doc(userCredential.user!.uid).set({
+      await db.collection('users').doc(uid).set({
         'email': userCredential.user!.email,
         'companyCode': companyCode,
         'companyName': companyName,
         'name': name,
       });
+      await initChatRoom(uid);
       return true;
     } catch (e) {
       print(e);
@@ -29,12 +34,20 @@ class Sign{
     }
   }
 
-  Future initChatRoom(String uid) async {
+  Future initChatRoom(String? uid) async {
     try {
-      await db.collection('chatRoom').doc(uid).set({
-        'uid': uid,
-        'lastChatDate': Timestamp.now(),
-      });
+      QuerySnapshot snapshot = await db.collection('counselor').get();
+      for (DocumentSnapshot document in snapshot.docs) {
+        await db.collection('chatRoom').add({
+          'userId': uid,
+          'counselorId': document.id,
+          'lastChatDate': DateTime.now(),
+          'lastChat': '대화가 없습니다.',
+          'isReadUser': true,
+          'isReadCounselor': false,
+          'lastSenderId': '',
+        });
+      }
     } catch (e) {
       print(e);
     }
@@ -84,7 +97,6 @@ class Sign{
   Future<bool> checkEmail(String email) async {
     QuerySnapshot querySnapshot = await db.collection('users').where('email', isEqualTo: email).get();
     if(querySnapshot.docs.isNotEmpty) {
-      if(!Get.isSnackbarOpen) Get.snackbar('중복 오류', '이미 가입된 이메일입니다.', backgroundColor: const Color(0xffff0000), colorText: Colors.white);
       return false;
     }
     else return true;

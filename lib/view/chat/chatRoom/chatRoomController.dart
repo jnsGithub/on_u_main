@@ -14,6 +14,7 @@ import 'package:on_u/util/chating.dart';
 class ChatRoomController extends GetxController{
   late ChatRoom chatRoom;
   List<bool> a = [true, false];
+  bool scrollState = false;
 
   Rx<File?> selectedImage = Rx<File?>(null);
   RxBool isUploading = false.obs; // 업로드 상태 관리
@@ -78,6 +79,7 @@ class ChatRoomController extends GetxController{
     final XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       selectedImage.value = File(pickedImage.path);
+      await uploadImageToFirebase();
     }
   }
 

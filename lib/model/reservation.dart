@@ -44,11 +44,12 @@ class Reservation {
       }
     }
     print('2');
-    if(json['reservationList'] != null){
-      for (var i in json['reservationList']){
-        b.add(ReservationList.fromJson(i));
-      }
-    }
+    // if(json['reservationList'] != null){
+    //   print('gd');
+    //   for (var i in json['reservationList']){
+    //     b.add(ReservationList.fromJson(i));
+    //   }
+    // }
     print('3');
     print('날짜 : {$a}');
       return Reservation(
@@ -62,7 +63,7 @@ class Reservation {
         date:json['date'].toDate(),
         possibleTime:json['possibleTime'] ?? [],
         holyDate: a ?? [],
-        reservationList: b ?? [],
+        reservationList: json['reservationList'] ?? [],
       );
 
   }

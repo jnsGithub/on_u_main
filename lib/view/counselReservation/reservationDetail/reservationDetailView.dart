@@ -51,20 +51,25 @@ class ReservationDetailView extends GetView<ReservationDetailController> {
               SizedBox(height: 30),
               TextFieldWidget(context, '상담 전 요청사항 (선택)', size.width, bgColor, mainColor, controller.descriptionController, heith: 165, maxLines: 10),
               SizedBox(height: 34),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: mainColor,
-                  minimumSize: Size(size.width, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                  onPressed: (){
-                    controller.reservation();
-                  },
-                  child: Text('예약하기', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
-              )
             ],
+          ),
+        ),
+      ),
+      bottomSheet: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: mainColor,
+              minimumSize: Size(size.width, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
+            onPressed: (){
+              controller.reservation();
+            },
+            child: Text('예약하기', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
           ),
         ),
       ),

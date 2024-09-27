@@ -104,36 +104,40 @@ class LoginView extends GetView<LoginController> {
                 ],
               ),
               SizedBox(height: 30),
-              GestureDetector(
-                onTap: () async {
-                  saving(context);
-                  await controller.login();
-                  if(controller.isSignIn){
-                    if(!Get.isSnackbarOpen){
-                      Get.snackbar('로그인 성공!', '환영합니다!', backgroundColor: mainColor, colorText: Colors.white);
-                    }
-                    Get.offAllNamed('/mainView');
-                  }
-                  else{
-                    Get.back();
-                    if(!Get.isSnackbarOpen){
-                      Get.snackbar('로그인 실패!', '아이디와 비밀번호를 확인해주세요.', backgroundColor: Color(0xffff0000), colorText: Colors.white);
-                    }
-                  }
-                },
-                child: Container(
-                    width: size.width*0.9179,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: mainColor
-                    ),
-                  child: Center(
-                    child: Text('로그인', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),),
-                  ),
-                ),
-              )
+
             ],
+          ),
+        ),
+      ),
+      bottomSheet: Padding(
+        padding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
+        child: GestureDetector(
+          onTap: () async {
+            saving(context);
+            await controller.login();
+            if(controller.isSignIn){
+              if(!Get.isSnackbarOpen){
+                Get.snackbar('로그인 성공!', '환영합니다!', backgroundColor: mainColor, colorText: Colors.white);
+              }
+              Get.offAllNamed('/mainView');
+            }
+            else{
+              Get.back();
+              if(!Get.isSnackbarOpen){
+                Get.snackbar('로그인 실패!', '아이디와 비밀번호를 확인해주세요.', backgroundColor: Color(0xffff0000), colorText: Colors.white);
+              }
+            }
+          },
+          child: Container(
+            width: size.width*0.9179,
+            height: 50,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: mainColor
+            ),
+            child: Center(
+              child: Text('로그인', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),),
+            ),
           ),
         ),
       ),

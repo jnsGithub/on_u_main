@@ -16,7 +16,7 @@ class HomeView extends GetView<MainController> {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 16,top: 25, right: 16, bottom: 10),
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

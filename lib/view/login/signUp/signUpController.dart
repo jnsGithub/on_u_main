@@ -47,8 +47,8 @@ class SignUpController extends GetxController {
     super.onClose();
   }
 
-  void signUp() async {
-    isSignUp = await sign.signUp(emailController.text, passwordController.text, companyCode, companyName, name);
+  Future signUp() async {
+    isSignUp = await sign.signUp(emailController.text, passwordController.text, passwordCheckController.text, companyCode, companyName, name);
   }
 
   void _validateForm() {

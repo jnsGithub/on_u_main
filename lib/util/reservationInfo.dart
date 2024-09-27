@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:on_u/global.dart';
 import 'package:on_u/model/myReservaion.dart';
 import 'package:on_u/model/reservationList.dart';
@@ -19,11 +20,12 @@ class ReservationInfo{
         // data['holyDate'] = data['holyDate'];
         // data['date'] = data['date'].toDate();
         // data['possibleTime'] = data['possibleTime'];
+        data['reservationList'] = await getReservationList(document.id);
         counselorList.add(Reservation.fromJson(data));
       }
       return counselorList;
     } catch (e) {
-      print('상담사 가져올때 걸림');
+      print('상담사 리스트 가져올때 걸림');
       print(e);
       return [];
     }
@@ -31,12 +33,17 @@ class ReservationInfo{
 
   Future<Reservation> getCounselor(String documentId) async {
     try {
+      List<ReservationList> reservationList = [];
+      reservationList.addAll(await getReservationList(documentId));
       DocumentSnapshot snapshot = await db.collection('counselor').doc(documentId).get();
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       data['documentId'] = snapshot.id;
       data['holyDate'] = data['holyDate'];
       data['date'] = data['date'];
       data['possibleTime'] = data['possibleTime'];
+      print('안됨?');
+      data['reservationList'] = List<ReservationList>.from(reservationList);
+      print('ㄴㄴ 됨ㅋㅋ');
       return Reservation.fromJson(data);
     } catch (e) {
       print('상담사 가져올때 걸림');
@@ -87,7 +94,7 @@ class ReservationInfo{
   Future<List<ReservationList>> getReservationList(String counseloId) async {
     List<ReservationList> reservationList = [];
     try {
-      QuerySnapshot snapshot = await db.collection('reservation').where('conselorId', isEqualTo: counseloId).get();
+      QuerySnapshot snapshot = await db.collection('reservation').where('counselorId', isEqualTo: counseloId).get();
       for (QueryDocumentSnapshot document in snapshot.docs) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
         data['documentId'] = document.id;
@@ -117,6 +124,7 @@ class ReservationInfo{
           return false;
         }
       }
+
       return true;
     } catch (e) {
       print('예약내역 체크할때 걸림');
@@ -126,15 +134,18 @@ class ReservationInfo{
   }
 
 
-  // TODO : 예약 디비 수정해야함.
+  // TODO : 예약 디비 수정해야함. ?? 했나?
   Future<void> addReservation(String documentId, ReservationList reservationList, DateTime date) async {
     try {
       Map<String, dynamic> data = reservationList.toJson();
       if(await checkReservation(documentId, date)) {
-        await db.collection('counselor').doc(documentId).update({
-          'reservationList': FieldValue.arrayUnion([reservationList.toJson()])
-        });
         await db.collection('reservation').add(data);
+        Get.offAllNamed('/mainView');
+      }
+      else {
+        if(!Get.isSnackbarOpen){
+          Get.snackbar('알림', '이미 예약된 시간입니다.');
+        }
       }
     } catch (e) {
       print('예약 추가할때 걸림');

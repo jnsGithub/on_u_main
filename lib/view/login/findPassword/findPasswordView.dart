@@ -17,7 +17,7 @@ class FindPasswordView extends GetView<FindPasswordController> {
         automaticallyImplyLeading: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 86, left: 16, bottom: 30),
+        padding: const EdgeInsets.only(top: 86, left: 16, bottom: 30, right: 16),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

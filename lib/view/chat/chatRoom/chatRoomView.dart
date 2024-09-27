@@ -27,22 +27,33 @@ class ChatRoomView extends GetView<ChatRoomController> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('chat').where('chatRoomId', isEqualTo: controller.chatRoom.documentId).orderBy('createDate', descending: false).snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('chat')
+              .where('chatRoomId', isEqualTo: controller.chatRoom.documentId)
+              .orderBy('createDate', descending: false)
+              .snapshots(),
           builder: (context, snapshot) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (controller.scrollController.hasClients) {
-                controller.scrollToBottom();
-              }
-            });
+            if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (controller.scrollController.hasClients) {
+                  // 데이터를 다 렌더링한 후에 스크롤을 맨 아래로 이동
+                  Future.delayed(Duration(milliseconds: 100), () {
+                    controller.scrollToBottom();
+                  });
+                }
+              });
+            }
             return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 70),
               controller: controller.scrollController,
               itemCount: snapshot.data?.docs.length ?? 0,
               itemBuilder: (context, index) {
-                print('zzzzzzzz s${controller.chatRoom.documentId}');
-                print('gdgd ${snapshot.data!.docs.length}');
+
                 Duration difference = snapshot.data!.docs[index]
-                    .data()['createDate'].toDate().difference(
-                    DateTime.now()); // 시간, 분, 초를 나눠서 출력
+                    .data()['createDate']
+                    .toDate()
+                    .difference(DateTime.now()); // 시간, 분, 초를 나눠서 출력
                 int hours = difference.inHours < 0
                     ? difference.inHours.abs()
                     : difference.inHours; // 24시간을 넘는 부분은 나머지로 처리
@@ -158,12 +169,12 @@ class ChatRoomView extends GetView<ChatRoomController> {
             );
           }
       ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        width: size.width,
-        // height: 108,
-        color: bgColor,
-        child: SafeArea(
+      bottomSheet: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          width: size.width,
+          // height: 108,
+          color: bgColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -172,7 +183,7 @@ class ChatRoomView extends GetView<ChatRoomController> {
                     controller.pickImage();
                   },
                   icon: Icon(Icons.camera_alt, color: subColor)),
-              Obx(() => Container(
+              Container(
                   width: size.width * 0.77,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -181,34 +192,34 @@ class ChatRoomView extends GetView<ChatRoomController> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      controller.selectedImage.value != null ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: 125,
-                              height: 125,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: FileImage(controller.selectedImage.value!),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: -10,
-                              top: -10,
-                              child: IconButton(
-                                icon: Icon(Icons.close, color: Colors.grey),
-                                onPressed: () {
-                                  controller.selectedImage.value = null;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ) : SizedBox(),
+                      // controller.selectedImage.value != null ? Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Stack(
+                      //     children: [
+                      //       Container(
+                      //         width: 125,
+                      //         height: 125,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(10),
+                      //           image: DecorationImage(
+                      //             image: FileImage(controller.selectedImage.value!),
+                      //             fit: BoxFit.cover,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Positioned(
+                      //         right: -10,
+                      //         top: -10,
+                      //         child: IconButton(
+                      //           icon: Icon(Icons.close, color: Colors.grey),
+                      //           onPressed: () {
+                      //             controller.selectedImage.value = null;
+                      //           },
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ) : SizedBox(),
                       Expanded(
                         child: TextField(
                           controller: controller.chatController,
@@ -227,7 +238,6 @@ class ChatRoomView extends GetView<ChatRoomController> {
                     ],
                   ),
                 ),
-              ),
             ],
           ),
         ),

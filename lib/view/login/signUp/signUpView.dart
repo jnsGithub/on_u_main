@@ -105,22 +105,41 @@ class SignUpView extends GetView<SignUpController> {
             ),
             Obx(() => ElevatedButton(
                   onPressed: () async {
-                    controller.signUp();
-                    if(controller.isSignUp){
+                    if(controller.isComplete.value == false){
+                      if(!Get.isSnackbarOpen){
+                        Get.snackbar('회원가입 실패', '모든 항목을 입력해주세요.', backgroundColor: const Color(0xffff0000), colorText: Colors.white);
+                      }
+                      return;
+                    }
+                    saving(context);
+                    await controller.signUp();
+                    if(await controller.isSignUp){
                       Get.offAllNamed('/mainView');
                       if(!Get.isSnackbarOpen){
-                        Get.snackbar('환영합니다!', '회원가입이 완료되었습니다!ㄴ', backgroundColor: mainColor, colorText: Colors.white);
+                        Get.snackbar('환영합니다!', '회원가입이 완료되었습니다!', backgroundColor: mainColor, colorText: Colors.white);
                       }
                     }
                     else if (controller.passwordController.text.length < 6){
                       if(!Get.isSnackbarOpen){
+                        Get.back();
                         Get.snackbar('회원가입 실패', '비밀번호를 6자리 이상 입력해주세요.', backgroundColor: const Color(0xffff0000), colorText: Colors.white);
                       }
                     }
+                    else if (controller.passwordController.text != controller.passwordCheckController.text){
+                      if(!Get.isSnackbarOpen){
+                        Get.back();
+                        Get.snackbar('회원가입 실패', '비밀번호가 일치하지 않습니다.', backgroundColor: const Color(0xffff0000), colorText: Colors.white);
+                      }
+                    }
                     else if(await controller.sign.checkEmail(controller.emailController.text) == false){
+                      if(!Get.isSnackbarOpen) {
+                        Get.back();
+                        Get.snackbar('중복 오류', '이미 가입된 이메일입니다.', backgroundColor: const Color(0xffff0000), colorText: Colors.white);
+                      }
                     }
                     else{
                       if(!Get.isSnackbarOpen){
+                        Get.back();
                         Get.snackbar('회원가입 실패', '이메일 양식을 확인해주세요.', backgroundColor: const Color(0xffff0000), colorText: Colors.white);
                       }
                     }

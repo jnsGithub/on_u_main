@@ -77,7 +77,11 @@ class SignUpCompanyView extends GetView<SignUpCompanyController> {
                   padding: EdgeInsets.only(top: 6),
                   height: 35,
                   child: Text('확인되지 않은 티켓 코드입니다.', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.red),),
-                ) : SizedBox(height: 35,)),
+                ) : Container(
+                  padding: EdgeInsets.only(top: 6),
+                  height: 35,
+                  child: Text('인증완료', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.blue),),
+                )),
                 TextFieldWidget(context, '회사명', size.width*0.9197, bgColor, mainColor, controller.companyNameController),
                 SizedBox(height: 35,),
                 TextFieldWidget(context, '이름', size.width*0.9197, bgColor, mainColor, controller.nameController),

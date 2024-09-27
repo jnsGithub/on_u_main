@@ -58,18 +58,30 @@ class MainView extends GetView<MainController> {
           appBar: AppBar(
             automaticallyImplyLeading: false,
             centerTitle: false,
+            toolbarHeight: 70,
             title: Obx(() => controller.selectedIndex == 0 ?
             Image.asset('assets/images/logo.png', width: size.width*0.2051,fit: BoxFit.fitWidth,)
                 : Text(controller.title, style: TextStyle(color: controller.selectedIndex.value != 4 ? mainColor : Colors.black, fontSize: 22, fontWeight: FontWeight.w600)
             ),
             ),
             actions: [
-              Obx(() => controller.selectedIndex.value != 4 ? IconButton(
-                  icon: ImageIcon(AssetImage('assets/images/sms.png'), color: subColor, size: 24),
-                  onPressed: () {
+              Obx(() => controller.selectedIndex.value != 4 ?
+              // IconButton(
+              //     icon: ImageIcon(AssetImage('assets/images/sms.png'), color: subColor, size: 24),
+              //     onPressed: () {
+              //       Get.toNamed('/chatListView', arguments: controller.counselorList);
+              //     },
+              //   )
+              Container(
+                margin: EdgeInsets.only(right: 16),
+                child: GestureDetector(
+                  onTap: () {
                     Get.toNamed('/chatListView', arguments: controller.counselorList);
                   },
-                ) : Container(),
+                  child: Image.asset('assets/images/sms.png', color: subColor, width: 24, fit: BoxFit.fitWidth,),
+                ),
+              )
+                  : Container(),
               ),
             ],
           ),
