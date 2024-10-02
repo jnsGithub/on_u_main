@@ -20,7 +20,7 @@ class HomeView extends GetView<MainController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("ON:U 프로그램", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600,)),
+                    Text("ON:U 프로그램", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700,)),
                     GestureDetector(
                       onTap: (){
                         controller.selectedIndex.value = 1;
@@ -85,7 +85,7 @@ class HomeView extends GetView<MainController> {
                             "간편 심리검사(가칭)",
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                             )
                         ),
                         GestureDetector(
@@ -146,7 +146,7 @@ class HomeView extends GetView<MainController> {
                             "상담 예약",
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                             )
                         ),
                         GestureDetector(

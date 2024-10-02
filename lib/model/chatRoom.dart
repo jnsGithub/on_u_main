@@ -6,6 +6,8 @@ class ChatRoom {
   final String counselorName;
   final String counselorPhtoURL;
   final String userId;
+  final String userName;
+  final String companyName;
   String lastSenderId;
   bool isReadUser;
   bool isReadCounselor;
@@ -22,6 +24,8 @@ class ChatRoom {
     required this.lastChatDate,
     this.counselorName = '',
     this.counselorPhtoURL = '',
+    this.userName = '',
+    this.companyName = '',
   });
 
 
@@ -36,6 +40,8 @@ class ChatRoom {
       lastChatDate:json['lastChatDate'].toDate(),
       counselorName:json['counselorName'] ?? '',
       counselorPhtoURL:json['counselorPhtoURL'] ?? '',
+      userName:json['userName'] ?? '',
+      companyName:json['companyName'] ?? '',
     );
   }
   Map<String, dynamic> toJson() {
@@ -49,6 +55,8 @@ class ChatRoom {
     data['lastChatDate'] = this.lastChatDate;
     data['counselorName'] = this.counselorName;
     data['counselorPhtoURL'] = this.counselorPhtoURL;
+    data['userName'] = this.userName;
+    data['companyName'] = this.companyName;
     return data;
   }
 }

@@ -61,7 +61,7 @@ class MainView extends GetView<MainController> {
             toolbarHeight: 70,
             title: Obx(() => controller.selectedIndex == 0 ?
             Image.asset('assets/images/logo.png', width: size.width*0.2051,fit: BoxFit.fitWidth,)
-                : Text(controller.title, style: TextStyle(color: controller.selectedIndex.value != 4 ? mainColor : Colors.black, fontSize: 22, fontWeight: FontWeight.w600)
+                : Text(controller.title, style: TextStyle(color: controller.selectedIndex.value != 4 ? mainColor : Colors.black, fontSize: 22, fontWeight: FontWeight.w700)
             ),
             ),
             actions: [

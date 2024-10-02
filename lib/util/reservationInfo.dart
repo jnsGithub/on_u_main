@@ -90,7 +90,6 @@ class ReservationInfo{
     }
   }
 
-  // 안쓰는중
   Future<List<ReservationList>> getReservationList(String counseloId) async {
     List<ReservationList> reservationList = [];
     try {
@@ -124,6 +123,12 @@ class ReservationInfo{
           return false;
         }
       }
+      DocumentSnapshot snapshot2 = await db.collection('users').doc(uid).get();
+      Map<String, dynamic> userData = snapshot2.data() as Map<String, dynamic>;
+      DocumentSnapshot snapshot3 = await db.collection('company').doc(userData['companyName']).get();
+      if(snapshot3['ticket'] < 1) {
+        return false;
+      }
 
       return true;
     } catch (e) {
@@ -140,6 +145,11 @@ class ReservationInfo{
       Map<String, dynamic> data = reservationList.toJson();
       if(await checkReservation(documentId, date)) {
         await db.collection('reservation').add(data);
+        DocumentSnapshot snapshot = await db.collection('users').doc(uid).get();
+        Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+        db.collection('company').doc(userData['companyName']).update({
+          'ticket': FieldValue.increment(-1),
+        });
         Get.offAllNamed('/mainView');
       }
       else {

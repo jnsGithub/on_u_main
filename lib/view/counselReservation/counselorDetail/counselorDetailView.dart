@@ -5,15 +5,17 @@ import 'package:on_u/component/color/color.dart';
 import 'package:on_u/global.dart';
 import 'package:on_u/model/chatRoom.dart';
 import 'package:on_u/view/counselReservation/counselorDetail/counselorDetailController.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 
 class CounselorDetailView extends GetView<CounselorDetailController> {
   const CounselorDetailView({super.key});
-
+  bool get isiOS => foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => CounselorDetailController());
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('상담예약', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
@@ -74,8 +76,8 @@ class CounselorDetailView extends GetView<CounselorDetailController> {
           
                               },
                               child: Container(
-                                width: size.width*0.1385,
-                                height: 28,
+                                width: size.width*0.18,
+                                height: 33,
                                 decoration: BoxDecoration(
                                   color: Color(0xffEAFFFB),
                                   borderRadius: BorderRadius.circular(6),
@@ -108,7 +110,7 @@ class CounselorDetailView extends GetView<CounselorDetailController> {
         ),
       bottomSheet: SafeArea(
         child: Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: isiOS ? 20 : 25),
             child: GestureDetector(
               onTap: (){
                 Get.toNamed('/reservaionCalendarView', arguments: controller.reservation);

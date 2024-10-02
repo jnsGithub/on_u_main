@@ -26,7 +26,7 @@ class Sign{
         'companyName': companyName,
         'name': name,
       });
-      await initChatRoom(uid);
+      await initChatRoom(uid, name, companyName);
       return true;
     } catch (e) {
       print(e);
@@ -34,7 +34,7 @@ class Sign{
     }
   }
 
-  Future initChatRoom(String? uid) async {
+  Future initChatRoom(String? uid, String name, String companyName) async {
     try {
       QuerySnapshot snapshot = await db.collection('counselor').get();
       for (DocumentSnapshot document in snapshot.docs) {
@@ -46,6 +46,8 @@ class Sign{
           'isReadUser': true,
           'isReadCounselor': false,
           'lastSenderId': '',
+          'userName': name,
+          'companyName': companyName,
         });
       }
     } catch (e) {

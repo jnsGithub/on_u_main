@@ -5,10 +5,11 @@ import 'package:on_u/view/counselReservation/reservationDetail/reservationDetail
 
 import '../../../component/color/color.dart';
 import '../../../component/widget/textFieldWidget.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 class ReservationDetailView extends GetView<ReservationDetailController> {
   const ReservationDetailView({super.key});
-
+  bool get isiOS => foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ReservationDetailController());
@@ -21,7 +22,7 @@ class ReservationDetailView extends GetView<ReservationDetailController> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: 16, right: 16, top: 18, bottom: 18),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 18, bottom: 60),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,7 +58,7 @@ class ReservationDetailView extends GetView<ReservationDetailController> {
       ),
       bottomSheet: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: isiOS ? 20 : 25),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: mainColor,

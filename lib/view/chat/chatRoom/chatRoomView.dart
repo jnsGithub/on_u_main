@@ -8,6 +8,7 @@ import 'package:on_u/component/color/color.dart';
 import 'package:on_u/global.dart';
 import 'package:on_u/view/chat/chatRoom/chatRoomController.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ChatRoomView extends GetView<ChatRoomController> {
@@ -132,15 +133,35 @@ class ChatRoomView extends GetView<ChatRoomController> {
                                 ),
                               ),
                             )
-                            : Container(
-                              height: 200,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                color: snapshot.data!.docs[index].data()['senderId'] != uid ? bgColor : Color(0xffE8F9F4),
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: NetworkImage(snapshot.data!.docs[index].data()['chat']),
-                                  fit: BoxFit.fill,
+                            : GestureDetector(
+                              onTap: (){
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        child: PhotoView(
+                                          imageProvider: NetworkImage(snapshot.data!.docs[index].data()['chat']),
+                                          minScale: PhotoViewComputedScale.contained * 0.8, // 최소 축소 크기
+                                          maxScale: PhotoViewComputedScale.covered * 2,    // 최대 확대 크기
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                height: 200,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: snapshot.data!.docs[index].data()['senderId'] != uid ? bgColor : Color(0xffE8F9F4),
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: NetworkImage(snapshot.data!.docs[index].data()['chat']),
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               ),
                             ),

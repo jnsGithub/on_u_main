@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:on_u/component/color/color.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:on_u/view/counselReservation/reservation/reservationCalendarController.dart';
+import 'package:flutter/foundation.dart' as foundation;
+
 
 class ReservationCalendarView extends GetView<ReservationCalendarController> {
   const ReservationCalendarView({super.key});
-
+  bool get isiOS => foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ReservationCalendarController());
@@ -29,7 +31,7 @@ class ReservationCalendarView extends GetView<ReservationCalendarController> {
         },
         child: SingleChildScrollView(
           child: Padding(
-              padding: const EdgeInsets.only(left: 20, top: 19, right: 20, bottom: 30),
+              padding: EdgeInsets.only(left: 20, top: 19, right: 20, bottom: isiOS ? 60 : 20),
               child: Stack(
                 children: [Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,9 +306,9 @@ class ReservationCalendarView extends GetView<ReservationCalendarController> {
           ),
         ),
       ),
-      bottomNavigationBar: Obx(() => SafeArea(
+      bottomSheet: Obx(() => SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding: EdgeInsets.only(left: 20, right: 20, bottom: isiOS ? 20 : 25),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: controller.isComplete.value ? mainColor : gray300,
@@ -324,7 +326,7 @@ class ReservationCalendarView extends GetView<ReservationCalendarController> {
               }
               if(!await controller.checkReservation(controller.selectReservation)){
                 if(!Get.isSnackbarOpen){
-                  Get.snackbar('예약불가', '다른 시간을 선택해주세요');
+                  Get.snackbar('예약불가', '예약 시간 혹은 티켓이 부족합니다.');
                 }
                 return;
               }
